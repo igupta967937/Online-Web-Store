@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>THE WT</title>
+    <link rel="stylesheet" href="/static/css/style.css" type="text/css">
+</head>
+<body>
+
+    <header class="banner">
+        <h1>The WT</h1>
+    </header>
+
+    <div class="content">
+
+        <div id="top_cart">
+            <div id="always_display"></div>
+            <button id="view_cart" type="button">Show Cart</button>
+        </div>
+        <hr>
+        <div id="content_wrap">
+            <div id="message">
+            </div>
+            <div id="product_display">
+            </div>
+            <div id="cart_display">
+            </div>
+        </div>
+
+         <script id="always_display_template" type="x-handlebars-template">
+
+                <ul>
+                    🛒 Cart
+                    <li> Items: {{quantity}}</li>
+                    <li> Total Price: {{cost}}</li>
+
+                </ul>
+         </script>
+
+        <script id="product_display_template" type="x-handlebars-template">
+                <p id="closeProduct">❌</p>
+                <ul>
+                    <h1>{{name}}</h1>
+                    <h2>${{cost}}</h2>
+                </ul>
+                <img src={{img}}>
+                <div id="desc">{{{desc}}}</div>
+                <form id="product_submit" action="/cart" method="post">
+                        <input id="input_add_to_cart" type="number" name="quantity" value="1">
+                        <input type="hidden" name="product_id" value={{id}}>
+                        <input type="hidden" name="update" value="0">
+                        <input id="add_to_cart_button" type="submit" value="Add to Cart">
+                </form>
+        </script>
+
+        <script id="cart_template" type="x-handlebars-template">
+            <p id="refreshCart">↺ Refresh Cart</p>
+          <table id="cart_full_table">
+                    <thead>
+                        <tr>
+                            <th class="cart_table">Product</th>
+                            <th class="cart_table">Quantity</th>
+                            <th class="cart_table">Cost</th>
+                            <th class="cart_table">Update Quantity</th>
+                            <th class="cart_table">Remove All</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each cart_contents}}
+                            <tr>
+                                <td class="cart_table"><a class="item" id={{id}} href="javascript:;">{{name}}</a></td>
+                                <td class="cart_table"><a>{{quantity}}</a></td>
+                                <td class="cart_table"><a>${{cost}}</a></td>
+                                <td class="cart_table">
+                                    <form class="update_cart" action="/cart" method="post">
+                                                <input type="hidden" name="product_id" value={{id}}>
+                                                <input id="update_input" type="number" name="quantity">
+                                                <input type="hidden" name="update" value="1">
+                                                <input id="update_cart_button" type="submit" value="✔">
+                                    </form>
+                                </td>
+                                <td>
+                                    <form class="remove_from_cart"  action="/cart" method="post">
+                                        <input type="hidden" name="product_id" value={{id}}>
+                                        <input type="hidden" name="quantity" value="0">
+                                        <input type="hidden" name="update" value="1">
+                                        <input id="remove_from_cart" type="submit" value="X">
+                                    </form>
+                                </td>
+                            </tr>
+                        {{/each}}
+
+                    </tbody>
+
+                </table>
+            <hr id="hr_cart">
+
+            <h4><a>TOTAL COST: ${{totalPrice}}</a></h4>
+        </script>
+
+        <script id="products_template" type="x-handlebars-template">
+                <table>
+                    <thead>
+                        <tr>
+                            <th id="sort_name">Product⇅</th>
+                            <th id="sort_cost"> Cost⇅</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each products_list}}
+                            <tr>
+                                <td><a class="item" id={{id}} href="javascript:;">{{name}}</a></td>
+                                <td><a>${{unit_cost}}</a></td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+        </script>
+    </div>
+
+    <footer class="banner">
+        <p>Copyright &copy; 2019 COMP249 Web Technology</p>
+    </footer>
+
+    <!-- load Javascript -->
+    <script src="/static/js/handlebars-v4.1.2.js"></script>
+    <script src="/static/js/jquery-3.4.0.js"></script>
+    <script src="/static/js/index.js"></script>
+    <script src="/static/js/model.js"></script>
+
+</body>
+</html>
+
+
